@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-routes
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: buypkube.ddns.net  # This is your No-IP hostname
+    http:
+      paths:
+      - path: /flutter
+        pathType: Prefix
+        backend:
+          service:
+            name: flutter-frontend-service  # Your Flutter service name
+            port:
+              number: 80                    # The port your Flutter app is using inside the container
+      - path: /django
+        pathType: Prefix
+        backend:
+          service:
+            name: django-backend-service     # Your Django service name
+            port:
+              number: 8000                  # The port your Django app is using inside the container

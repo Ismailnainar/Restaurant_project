@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flutter-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flutter-frontend
+  template:
+    metadata:
+      labels:
+        app: flutter-frontend
+    spec:
+      containers:
+      - name: flutter-frontend
+        image: mohamedmass1245/flutter_project_rest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flutter-frontend-service
+spec:
+  selector:
+    app: flutter-frontend
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80           # Port inside the container (Flutter app)
+      targetPort: 80      # Target port on the container
+      nodePort: 30004     # External port on the node
+
